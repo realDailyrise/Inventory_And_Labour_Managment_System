@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Inventory & Labour Management</title>
+    <link rel="stylesheet" href="https://cdn.tailwindcss.com">
+</head>
+
+<body class="bg-gray-900 text-white p-10">
+
+<h1 class="text-3xl font-bold mb-6">
+AI-Driven Inventory & Labour Management System
+</h1>
+
+<form method="POST" enctype="multipart/form-data" class="space-y-6">
+
+    <div>
+        <label class="block mb-2">Upload Inventory CSV</label>
+        <input type="file" name="inventory_file" class="text-black">
+    </div>
+
+    <div>
+        <label class="block mb-2">Upload Labour CSV</label>
+        <input type="file" name="labour_file" class="text-black">
+    </div>
+
+    <button type="submit" class="bg-blue-600 px-6 py-2 rounded">
+        Predict & Calculate
+    </button>
+
+</form>
+
+<hr class="my-8">
+
+{% if inventory_result %}
+<h2 class="text-xl font-bold">Inventory Prediction</h2>
+<p>Predicted Next Day Usage: {{ inventory_result.predicted_usage }}</p>
+<p>Estimated Days Before Stock Finishes: {{ inventory_result.days_left }}</p>
+{% endif %}
+
+{% if labour_result %}
+<h2 class="text-xl font-bold mt-6">Labour Wage Report</h2>
+
+<table class="table-auto border mt-4">
+    <tr>
+        <th class="px-4">Name</th>
+        <th class="px-4">Profession</th>
+        <th class="px-4">Monthly Wage</th>
+    </tr>
+
+    {% for worker in labour_result %}
+    <tr>
+        <td class="px-4">{{ worker.Name }}</td>
+        <td class="px-4">{{ worker.Profession }}</td>
+        <td class="px-4">{{ worker.Monthly_Wage }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p class="mt-4 font-bold">
+Total Monthly Labour Cost: {{ total_cost }}
+</p>
+
+{% endif %}
+
+</body>
+</html>
